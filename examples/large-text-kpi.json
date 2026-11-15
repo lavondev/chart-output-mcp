@@ -1,0 +1,45 @@
+{
+  "type": "bar",
+  "width": 1200,
+  "height": 800,
+  "format": "png",
+  "scale": 1,
+  "padding": "slack",
+  "textScale": 1.5,
+  "backgroundColor": "#ffffff",
+  "borderRadius": 16,
+  "border": { "color": "rgba(15,23,42,0.08)", "width": 1 },
+  "theme": {
+    "mode": "light",
+    "textPrimary": "#0f172a",
+    "textSecondary": "#475569",
+    "gridColor": "rgba(15,23,42,0.06)"
+  },
+  "header": {
+    "eyebrow": "QUARTERLY REVENUE",
+    "title": "$412,000",
+    "subtitle": "Up 12% on last quarter"
+  },
+  "legend": { "display": false },
+  "data": {
+    "labels": ["Q1", "Q2", "Q3", "Q4"],
+    "datasets": [
+      {
+        "label": "Revenue",
+        "data": [310000, 368000, 412000, 455000],
+        "backgroundColor": "#0f766e",
+        "borderRadius": 6
+      }
+    ]
+  },
+  "kpiStrip": [
+    { "label": "Customers", "value": "1,284", "color": "#0f172a" },
+    { "label": "Churn", "value": "2.1%", "color": "#b45309" },
+    { "label": "NPS", "value": "54", "color": "#0f172a" }
+  ],
+  "footer": {
+    "left": "chart-output.com",
+    "right": "Large text example",
+    "borderTop": true
+  }
+}

@@ -1,3 +1,37 @@
+/** Image formats the inline tools can show in chat. */
+const MIME_BY_FORMAT: Record<string, string> = {
+  png: "image/png",
+  jpeg: "image/jpeg",
+  webp: "image/webp",
+  svg: "image/svg+xml",
+};
+
+/** Strip parameters ("; charset=utf-8") and lower-case a Content-Type value. */
+export function cleanContentType(value: string | null): string | null {
+  if (!value) return null;
+  const cleaned = value.split(";")[0]?.trim().toLowerCase();
+  return cleaned ? cleaned : null;
+}
+
+/**
+ * Work out what the response bytes really are. The response Content-Type is the truth, not the
+ * format the caller asked for: a card asked as SVG comes back as PNG. Falls back to the requested
+ * format only when the Content-Type says nothing useful.
+ */
+export function resolveImageFormat(
+  contentType: string | null,
+  requestedFormat: string
+): { format: string; mimeType: string } {
+  const type = cleanContentType(contentType);
+  if (type === "image/png") return { format: "png", mimeType: "image/png" };
+  if (type === "image/jpeg" || type === "image/jpg") return { format: "jpeg", mimeType: "image/jpeg" };
+  if (type === "image/webp") return { format: "webp", mimeType: "image/webp" };
+  if (type === "image/svg+xml") return { format: "svg", mimeType: "image/svg+xml" };
+
+  const fallback = requestedFormat === "jpg" ? "jpeg" : requestedFormat;
+  return { format: fallback, mimeType: MIME_BY_FORMAT[fallback] ?? "image/png" };
+}
+
 export function assertChartImageBuffer(buffer: Buffer, format: string): void {
   const headUtf8 = buffer.toString("utf8", 0, Math.min(buffer.length, 256)).trimStart();
   if (headUtf8.startsWith("Redirecting")) {

@@ -12,4 +12,6 @@ curl -X POST https://www.chart-output.com/api/v1/render \
   --output chart.png && open chart.png
 ```
 
+Examples are 1200 px at scale 1 so they run on a Free key. On Pro or Agency you can set `scale` to 2. Free renders carry a small watermark.
+
 Get a free API key at [chart-output.com](https://www.chart-output.com/auth/sign-up).

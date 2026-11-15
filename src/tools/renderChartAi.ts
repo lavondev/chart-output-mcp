@@ -1,5 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { fetchAiChartAsBase64 } from "../clients/chartOutputClient.js";
+import { withMeta } from "../clients/responseMeta.js";
 import { toolDefinitions } from "./definitions.js";
 
 export function registerRenderChartAiTool(server: McpServer): void {
@@ -7,7 +8,7 @@ export function registerRenderChartAiTool(server: McpServer): void {
     toolDefinitions.renderChartAi.name,
     toolDefinitions.renderChartAi.description,
     toolDefinitions.renderChartAi.inputSchema,
-    async ({ description, data, width, height, format }) => {
+    async ({ description, data, width, height, format, brand }) => {
       const body: Record<string, unknown> = {
         description,
         width: width ?? 800,
@@ -15,6 +16,7 @@ export function registerRenderChartAiTool(server: McpServer): void {
         format: format ?? "png",
       };
       if (data) body.data = data;
+      if (brand) body.brand = brand;
 
       const rendered = await fetchAiChartAsBase64(body);
 
@@ -27,7 +29,10 @@ export function registerRenderChartAiTool(server: McpServer): void {
           },
           {
             type: "text" as const,
-            text: `AI chart rendered: ${rendered.chartType} chart (generated in ${rendered.generationMs}ms).`,
+            text: withMeta(
+              `AI chart rendered: ${rendered.chartType} chart (generated in ${rendered.generationMs}ms).`,
+              rendered.meta
+            ),
           },
         ],
       };

@@ -1,31 +1,20 @@
 import { isRecord } from "./object.js";
 
-export function normalizeCardSpec(spec: Record<string, unknown>): Record<string, unknown> {
-  const body: Record<string, unknown> = { ...spec };
-
-  // Common user shape: root labels/datasets from render_chart payload.
-  const labels = Array.isArray(body.labels) ? body.labels : undefined;
-  const datasets = Array.isArray(body.datasets) ? body.datasets : undefined;
-  if (!isRecord(body.data) && labels && datasets) {
-    body.data = { labels, datasets };
+/**
+ * Common agent mistake: a render_chart-style payload (root `labels` + `datasets`) pasted into a card spec.
+ * Move them into `data` before the first request. Nothing else is rewritten: every header, badge, theme
+ * and KPI field is sent exactly as given, so a real 400 reaches the agent with the API's own `details`.
+ */
+export function moveRootLabelsIntoData(spec: Record<string, unknown>): Record<string, unknown> {
+  if (isRecord(spec.data)) return spec;
+  const { labels, datasets, ...rest } = spec;
+  if (Array.isArray(labels) && Array.isArray(datasets)) {
+    return { ...rest, data: { labels, datasets } };
   }
-  delete body.labels;
-  delete body.datasets;
+  return spec;
+}
 
-  // render_card returns inline images only.
-  if (body.returnUrl === true) {
-    delete body.returnUrl;
-  }
-
-  // Guard against unsupported header keys that frequently cause API 400s.
-  if (isRecord(body.header)) {
-    const { title, subtitle, badge } = body.header;
-    body.header = {
-      ...(typeof title === "string" ? { title } : {}),
-      ...(typeof subtitle === "string" ? { subtitle } : {}),
-      ...(typeof badge === "string" ? { badge } : {}),
-    };
-  }
-
-  return body;
+/** Add the API's repair_mode when the caller opted in. The caller's `repair` input wins over a repair_mode inside the spec. */
+export function withRepairMode(body: Record<string, unknown>, repair?: "safe" | "off"): Record<string, unknown> {
+  return repair ? { ...body, repair_mode: repair } : body;
 }

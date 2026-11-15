@@ -1,0 +1,47 @@
+{
+  "type": "line",
+  "width": 1200,
+  "height": 700,
+  "format": "png",
+  "scale": 1,
+  "padding": "email",
+  "backgroundColor": "#ffffff",
+  "borderRadius": 16,
+  "border": { "color": "rgba(15,23,42,0.08)", "width": 1 },
+  "theme": {
+    "mode": "light",
+    "textPrimary": "#0f172a",
+    "textSecondary": "#64748b",
+    "gridColor": "rgba(15,23,42,0.06)"
+  },
+  "header": {
+    "eyebrow": "SIGNUPS",
+    "title": "Signups by month",
+    "subtitle": "A spring sale in March and a short outage in May and June"
+  },
+  "data": {
+    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+    "datasets": [
+      {
+        "label": "Signups",
+        "data": [18200, 19400, 26800, 25100, 21300, 22900, 28400, 31200],
+        "borderColor": "#2563eb",
+        "backgroundColor": "rgba(37,99,235,0.08)",
+        "fill": true,
+        "tension": 0.35,
+        "borderWidth": 2.5,
+        "pointRadius": 0
+      }
+    ]
+  },
+  "annotations": [
+    { "x": "Mar", "label": "Spring sale" },
+    { "x_start": "May", "x_end": "Jun", "style": "band", "label": "Outage" },
+    { "y": 30000, "label": "Target" }
+  ],
+  "footer": {
+    "left": "chart-output.com",
+    "right": "Annotations example",
+    "borderTop": true
+  }
+}
