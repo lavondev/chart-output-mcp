@@ -37,7 +37,7 @@ export function registerExampleTools(server: McpServer, exampleIds: string[]): v
         content: [
           {
             type: "text" as const,
-            text: `${text}\n\n(Use the JSON object above as render_card’s \`spec\` argument. Adjust labels/values; keep the same top-level field structure your chosen example uses.)`,
+            text: `${text}\n\n(Use the JSON object above as render_card’s \`spec\` argument. Adjust labels/values; keep the same top-level field structure your chosen example uses. Free plan: width or height × scale must be 1200 or less; this example already fits. On Pro or Agency you can set "scale" to 2.)`,
           },
         ],
       };

@@ -1,0 +1,39 @@
+{
+  "type": "bar",
+  "width": 1200,
+  "height": 700,
+  "format": "png",
+  "scale": 1,
+  "alt_text": true,
+  "colorblind_safe": true,
+  "lang": "en",
+  "backgroundColor": "#ffffff",
+  "borderRadius": 16,
+  "border": { "color": "rgba(15,23,42,0.08)", "width": 1 },
+  "theme": {
+    "mode": "light",
+    "textPrimary": "#0f172a",
+    "textSecondary": "#475569",
+    "gridColor": "rgba(15,23,42,0.06)"
+  },
+  "header": {
+    "eyebrow": "SUPPORT",
+    "title": "Tickets by priority",
+    "subtitle": "Last 30 days"
+  },
+  "data": {
+    "labels": ["Urgent", "High", "Normal", "Low"],
+    "datasets": [
+      {
+        "label": "Tickets",
+        "data": [42, 118, 305, 96],
+        "borderRadius": 6
+      }
+    ]
+  },
+  "footer": {
+    "left": "chart-output.com",
+    "right": "Alt text and color-blind-safe example",
+    "borderTop": true
+  }
+}

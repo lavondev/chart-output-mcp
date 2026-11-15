@@ -1,14 +1,26 @@
-export const SERVER_INSTRUCTIONS = `You are using Chart-Output MCP to render charts and dashboard cards as images (PNG, JPEG, WebP, or SVG).
+export const SERVER_INSTRUCTIONS = `You are using Chart-Output MCP to render charts and dashboard cards as images (PNG, JPEG, WebP, or SVG; PDF as a link on paid plans).
 
-Authentication: All render tools require CHART_OUTPUT_API_KEY (sent as Bearer token). If any call returns 401, the key is missing or invalid — the user must set CHART_OUTPUT_API_KEY in the MCP server environment. render_chart_ai additionally requires a Pro or Business key; a Free key returns 403.
+Authentication: render tools need CHART_OUTPUT_API_KEY (sent as Bearer token). A 401 means the key is missing or invalid: the user must set it in the MCP server environment (or send it as a header on the HTTP transport). The gallery tools need no key.
+
+Plans and errors: plans are Free, Pro and Agency. Free images carry a small watermark, and the longest edge × scale may be at most 1200 px (3000 px on Pro and Agency).
+- 402 means the monthly allowance is used up. 403 means the plan lacks something you asked for (pdf, a bigger size, AI charts, waterfall explanations, a brand kit over the limit). Do NOT retry either one: tell the user and give them the upgrade link from the error text.
+- 400 lists the exact fields that failed; fix those fields only. 404 for a brand slug lists the slugs that exist.
+- 429 means too many requests (100 per 15 minutes per key). Wait for Retry-After.
 
 Tool selection guide:
-1. list_chart_output_examples — call this first when building a card or after receiving HTTP 400, to see all valid example ids.
-2. get_chart_example — call this to retrieve a full, API-valid JSON body for a given example id. Always start render_card or render_card_url from this spec; do not hand-author a card spec.
-3. render_chart — use when you have structured labels + datasets and want an inline image. Supports line, bar, pie, doughnut, radar, polarArea. Use the "extensions" field to add Chart-Output dashboard features (header, footer, kpiStrip, theme, backgroundColor) without a full card spec.
-4. render_chart_url — same inputs as render_chart but returns a CDN URL string instead of image bytes. Use when embedding in HTML, markdown, or email.
-5. render_card — use for full branded dashboard cards (header, KPI strip, footer, theme, brandKitId) when you want an inline image. The "spec" field is the full POST /api/v1/render body. Do NOT set returnUrl. Always start from get_chart_example output.
-6. render_card_url — use for full branded dashboard cards when you need an openable/shareable CDN URL instead of inline image bytes. The "spec" field is the full POST /api/v1/render body. returnUrl is handled automatically.
-7. render_chart_ai — use when data is in natural language or raw tabular form (JSON array or CSV). Requires Pro/Business key. Does NOT support SVG or custom Chart.js options.
+1. list_chart_output_examples / get_chart_example — start every card from an example; never hand-author a card spec. Examples are 1200 px at scale 1 so they run on Free.
+2. render_chart — structured labels + datasets → inline image (line, bar, pie, doughnut, radar, polarArea). Datasets keep every key you send (fill, tension, stack, yAxisID, dataset-level type, borderDash). Named inputs: header, kpiStrip, footer, brand, textScale, annotations, dataLabels, colorblind_safe, alt_text, lang, repair. "extensions" is the escape hatch for anything else.
+3. render_chart_url — same inputs, returns a public CDN link (and PDF on Pro or Agency).
+4. render_card / render_card_url — the full POST /api/v1/render body as "spec". Do NOT set returnUrl. The spec is sent once, exactly as given; cards always come back as PNG.
+5. render_chart_ai — natural language or raw JSON/CSV → chart. Pro or Agency only.
+6. render_waterfall — "what changed between two periods". Gives a waterfall chart and a summary of what changed. The explanation says what changed, never why: do not invent causes.
+7. list_brand_kits, create_brand_kit_from_url — use a saved brand by passing its slug as \`brand\`. Drafting from a URL uses a monthly extraction; save only after the user agrees. Preset looks go in brandKitId.
+8. list_gallery_charts, get_gallery_chart — proven designs for common business questions (no key needed to browse). They are gallery charts, not API template ids: a name like mrr-growth can mean different things in each place, so say which one you mean. A guide for agents is at https://www.chart-output.com/llms.txt.
 
-Defaults: 800×400 pixels, PNG format. Labels array length must match every dataset's data array length or the API returns 400. Card layout reference: https://www.chart-output.com/docs/card-composition`;
+Field shapes that agents get wrong: kpiStrip is [{label, value, color?}] (value is a string, there is no delta); footer is {left?, right?, borderTop?}; theme is an object, never the string "dark"; header.badge is an object {text, ...}. Full field list: resource chart-output://reference/request-fields.
+
+Things that surprise people: in a stacked bar, series after the first with a plain #rrggbb color are drawn at 70% opacity (use rgba(...) for the exact color); the second line series is dashed unless you set borderDash: []; annotations only work on line and bar charts with a category x-axis (not horizontal bars, pie, doughnut, radar, polarArea).
+
+Data checks: keep labels and every dataset's data the same length. The API does not reject a mismatch by default; the chart renders with gaps. Set repair: "safe" when you are unsure about your data, or "off" to get a precise error with a suggested fix.
+
+Defaults: 800×400 pixels, PNG. Results can include a Usage line and warnings; if the allowance is almost used up, tell the user. Card layout reference: https://www.chart-output.com/docs/card-composition`;

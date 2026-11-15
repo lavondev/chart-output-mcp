@@ -1,7 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { apiKey } from "./config/chartOutput.js";
+import { PACKAGE_VERSION } from "./config/version.js";
 import { SERVER_INSTRUCTIONS } from "./constants/instructions.js";
 import { loadExampleIds, registerExampleResources } from "./resources/examples.js";
+import { registerReferenceResource } from "./resources/reference.js";
 import { registerTools } from "./tools/index.js";
 let warnedMissingApiKey = false;
 export function createServer(options = {}) {
@@ -12,9 +14,10 @@ export function createServer(options = {}) {
     const exampleIds = loadExampleIds();
     const server = new McpServer({
         name: "chart-output-mcp",
-        version: "1.0.10",
+        version: PACKAGE_VERSION,
     }, { instructions: SERVER_INSTRUCTIONS });
     registerExampleResources(server, exampleIds);
+    registerReferenceResource(server);
     registerTools(server, exampleIds);
     return server;
 }

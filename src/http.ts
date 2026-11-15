@@ -4,7 +4,8 @@ import { runWithRequestContext } from "./config/requestContext.js";
 import { createServer } from "./server.js";
 
 const app = express();
-app.use(express.json());
+// A spec with many points can pass the 100 KB default and get a 413 before it reaches a tool.
+app.use(express.json({ limit: "2mb" }));
 
 const MCP_PATH = "/mcp";
 const allowedOrigins = (process.env.MCP_ALLOWED_ORIGINS ?? "*")
@@ -49,7 +50,7 @@ function extractChartOutputApiKey(req: express.Request): string | undefined {
 app.all(MCP_PATH, async (req, res) => {
   const requestApiKey = extractChartOutputApiKey(req);
 
-  await runWithRequestContext({ chartOutputApiKey: requestApiKey }, async () => {
+  await runWithRequestContext({ chartOutputApiKey: requestApiKey, httpMode: true }, async () => {
     const server = createServer({ hasRequestScopedApiKey: Boolean(requestApiKey) });
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
@@ -85,7 +86,7 @@ app.get("/", (_req, res) => {
     auth: {
       type: "bearer",
       description:
-        "Pass Authorization: Bearer <CHART_OUTPUT_API_KEY>, or configure CHART_OUTPUT_API_KEY on the server.",
+        "Pass Authorization: Bearer <CHART_OUTPUT_API_KEY> (or x-chart-output-api-key). The server's own CHART_OUTPUT_API_KEY is used only when MCP_ALLOW_SERVER_KEY=true.",
     },
   });
 });
