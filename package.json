@@ -1,6 +1,6 @@
 {
   "name": "@chartoutput/mcp",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "MCP server for Chart-Output — render charts, branded cards and waterfall explanations (PNG, SVG, WebP, PDF) from any AI agent",
   "type": "module",
   "main": "build/index.js",
