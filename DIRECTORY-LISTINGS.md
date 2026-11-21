@@ -15,8 +15,8 @@ Written 2026-11-21 from the chart-output app session. Goal: get `@chartoutput/mc
 
 Made by the app session, not yet committed:
 
-- `server.json` (new): registry entry named `io.github.jgaddy95/chart-output-mcp`, version `1.1.1`, with the npm package (stdio, `CHART_OUTPUT_API_KEY` required and secret) and the hosted remote `https://www.chart-output.com/mcp` (streamable HTTP). Validated against the registry's 2025-12-11 schema.
-- `package.json`: added `"mcpName": "io.github.jgaddy95/chart-output-mcp"` under `version`. Must equal `server.json` `name` exactly.
+- `server.json` (new): registry entry named `io.github.lavondev/chart-output-mcp`, version `1.1.1`, with the npm package (stdio, `CHART_OUTPUT_API_KEY` required and secret) and the hosted remote `https://www.chart-output.com/mcp` (streamable HTTP). Validated against the registry's 2025-12-11 schema.
+- `package.json`: added `"mcpName": "io.github.lavondev/chart-output-mcp"` under `version`. Must equal `server.json` `name` exactly.
 - `DIRECTORY-LISTINGS.md` (this file).
 
 Already uncommitted before that, from earlier work and **not part of this task**: an edit in `src/tools/definitions.ts` and `CATCH-UP-WITH-APP.md`. Decide on those separately.
@@ -29,7 +29,7 @@ Already uncommitted before that, from earlier work and **not part of this task**
 4. Publish to the registry (steps below), then verify.
 5. Optional cleanups noticed while checking:
    - The hosted endpoint reports `serverInfo.version` `1.0.0` and exposes only `render_chart`. It's served by the app repo (`app/mcp`), not this package, so listings should describe it as the no-install, no-key option, not as the full 12-tool server.
-   - README links point at `github.com/jgaddy95/chart-output-mcp`; Glama lists it as `lavondev/chart-output-mcp`. Both resolve, but pick one for the listings.
+   - The GitHub account was renamed from `jgaddy95` to `lavondev` (the old name now 404s). Everything here, the README links, `glama.json`, `server.json` and `mcpName`, uses `lavondev`. `LICENSE` still says `jgaddy95`; that's a copyright holder line, so it was left for the owner to decide.
 
 ## Official MCP Registry
 
@@ -43,24 +43,24 @@ brew install mcp-publisher
 mcp-publisher login github
 ```
 
-Sign in as **jgaddy95** with the device code it prints. That grants the `io.github.jgaddy95/*` namespace. (An `io.github.lavondev/*` org namespace would need you to be an org Owner and a token login, so stick with the personal one.)
+Sign in as **lavondev** (a personal account, the one that owns the repo) with the device code it prints. That grants the `io.github.lavondev/*` namespace, which matches `server.json` and `mcpName`.
 
 ```bash
 mcp-publisher publish
 ```
 
 ```bash
-curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.jgaddy95/chart-output-mcp"
+curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.lavondev/chart-output-mcp"
 ```
 
-The output should contain `"name":"io.github.jgaddy95/chart-output-mcp"`.
+The output should contain `"name":"io.github.lavondev/chart-output-mcp"`.
 
 Errors: "Registry validation failed for package" means `mcpName` is missing from the published npm version. "You do not have permission" means the name prefix doesn't match the GitHub account you logged in as. "Invalid or expired Registry JWT" means run `login` again. The registry doesn't verify the remote URL's domain for `io.github` names.
 
 ## mcp.so
 
 1. Go to https://mcp.so/submit?type=server (the "MCP Server" tab).
-2. Repository URL: `https://github.com/jgaddy95/chart-output-mcp`. Name: `Chart-Output`.
+2. Repository URL: `https://github.com/lavondev/chart-output-mcp`. Name: `Chart-Output`.
 3. Choose the free submission (reviewed, no stated timeline) or the $39 paid one (published immediately, verified badge, dofollow link).
 4. Optionally submit the hosted endpoint as well under https://mcp.so/submit?type=remote-server with `https://www.chart-output.com/mcp`.
 
@@ -72,7 +72,7 @@ Smithery joined Arcade and shut down its accounts, CLI, proxy and self-serve pub
 
 ## Glama
 
-Open https://glama.ai/mcp/servers/lavondev/chart-output-mcp while signed in as the maintainer (`glama.json` lists jgaddy95) and trigger a re-scan so the score and tool count reflect 1.1.x. Glama also syncs from the official registry.
+Open https://glama.ai/mcp/servers/lavondev/chart-output-mcp while signed in as the maintainer (`glama.json` lists lavondev) and trigger a re-scan so the score and tool count reflect 1.1.x. Glama also syncs from the official registry.
 
 ## Paste text
 
@@ -90,6 +90,6 @@ Two ways to connect:
 Free API key: https://www.chart-output.com/auth/sign-up
 Docs: https://www.chart-output.com/docs/mcp
 
-**Links:** repo https://github.com/jgaddy95/chart-output-mcp · npm https://www.npmjs.com/package/@chartoutput/mcp · site https://www.chart-output.com
+**Links:** repo https://github.com/lavondev/chart-output-mcp · npm https://www.npmjs.com/package/@chartoutput/mcp · site https://www.chart-output.com
 
 **Tags:** charts, data-visualization, images, chart.js, reports

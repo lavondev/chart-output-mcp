@@ -13,9 +13,9 @@ Chart-Output and returns the image inline.
 
 Ask your AI agent to generate a chart. This is what comes back.
 
-![MRR breakdown chart example](https://raw.githubusercontent.com/jgaddy95/chart-output-mcp/main/assets/mrr-breakdown.png)
+![MRR breakdown chart example](https://raw.githubusercontent.com/lavondev/chart-output-mcp/main/assets/mrr-breakdown.png)
 
-(If the image does not load in your viewer, open the [file on GitHub](https://github.com/jgaddy95/chart-output-mcp/blob/main/assets/mrr-breakdown.png).)
+(If the image does not load in your viewer, open the [file on GitHub](https://github.com/lavondev/chart-output-mcp/blob/main/assets/mrr-breakdown.png).)
 
 ## Examples
 
@@ -135,7 +135,7 @@ PORT=3000 node build/http.js
 
 Registry listing and quality card:
 
-[![chart-output-mcp MCP server](https://glama.ai/mcp/servers/jgaddy95/chart-output-mcp/badges/card.svg)](https://glama.ai/mcp/servers/jgaddy95/chart-output-mcp)
+[![chart-output-mcp MCP server](https://glama.ai/mcp/servers/lavondev/chart-output-mcp/badges/card.svg)](https://glama.ai/mcp/servers/lavondev/chart-output-mcp)
 
 ## Development
 
@@ -150,5 +150,5 @@ npm run smoke     # probes the built server over stdio
 - [Chart-Output docs](https://www.chart-output.com/docs)
 - [npm package](https://www.npmjs.com/package/@chartoutput/mcp)
 - [Chart-Output pricing](https://www.chart-output.com/pricing)
-- [Glama MCP listing](https://glama.ai/mcp/servers/jgaddy95/chart-output-mcp)
+- [Glama MCP listing](https://glama.ai/mcp/servers/lavondev/chart-output-mcp)
 - [License](LICENSE)
