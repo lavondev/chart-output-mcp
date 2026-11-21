@@ -1,0 +1,46 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.lavondev/chart-output-mcp",
+  "title": "Chart-Output",
+  "description": "Render branded chart images (PNG, SVG, WebP, PDF) and KPI cards from a JSON spec or plain data.",
+  "repository": {
+    "url": "https://github.com/lavondev/chart-output-mcp",
+    "source": "github"
+  },
+  "version": "1.1.1",
+  "websiteUrl": "https://www.chart-output.com/docs/mcp",
+  "icons": [
+    {
+      "src": "https://www.chart-output.com/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    },
+    {
+      "src": "https://www.chart-output.com/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@chartoutput/mcp",
+      "version": "1.1.1",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "CHART_OUTPUT_API_KEY",
+          "description": "Chart-Output API key (free at https://www.chart-output.com/auth/sign-up)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.chart-output.com/mcp"
+    }
+  ]
+}

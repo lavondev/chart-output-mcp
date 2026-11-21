@@ -1,6 +1,7 @@
 {
   "name": "@chartoutput/mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
+  "mcpName": "io.github.lavondev/chart-output-mcp",
   "description": "MCP server for Chart-Output — render charts, branded cards and waterfall explanations (PNG, SVG, WebP, PDF) from any AI agent",
   "type": "module",
   "main": "build/index.js",
